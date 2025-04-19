@@ -30,10 +30,9 @@ public class MainPageTest {
         MutableCapabilities caps = new MutableCapabilities();
         caps.setCapability("browserName", "chrome");
 
-        // Selenoid specific options - group them under "selenoid:options"
         Map<String, Object> selenoidOptions = new HashMap<>();
-        selenoidOptions.put("enableVNC", false);    // для headless не обязателен
-        selenoidOptions.put("enableVideo", false);  // избегаем legacy проблемы
+        selenoidOptions.put("enableVNC", false);   
+        selenoidOptions.put("enableVideo", false);
         caps.setCapability("selenoid:options", selenoidOptions);
 
         try {
