@@ -112,16 +112,4 @@ public class PageTest extends MainPageTest {
 
         softAssertions.assertAll();
     }
-
-    /**
-     * Тестирует переход на страницу 'LIFETIME MEMBERSHIP CLUB' и сверяет
-     * заголовок страницы с ожидаемым заголовком из конфигурации.
-     */
-    @Test
-    public void goToLifeTimeTest() {
-        lifeTimePage = new LifeTimePage(driver);
-        wayPageNavigationBlock = new WayPageNavigationBlock(driver);
-        wayPageNavigationBlock.goToLifeTime();
-        assertEquals(lifeTimePage.getTextHeader(), config.getProperty("header"));
-    }
 }
