@@ -2,63 +2,83 @@ pipeline {
     agent {
         docker {
             image 'maven:3.8.5-openjdk-17'
-            args '-v $HOME/.m2:/root/.m2'
+            args '-v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/root/.m2'
         }
     }
 
     environment {
-        DOCKER_COMPOSE_VERSION = '1.29.2'
+        MAVEN_OPTS = "-Dmaven.repo.local=.m2_repo"
+        SELENOID_PORT = '4444'
+        TEST_RESULTS = 'target/allure-results'
     }
 
-    tools {
-        maven 'Maven'
+    options {
+        timeout(time: 30, unit: 'MINUTES')
+        timestamps()
     }
 
     stages {
-        stage('Checkout') {
+
+        stage('Checkout Source') {
             steps {
-                git 'https://github.com/no1da/TestWithDocker'
+                git url: 'https://github.com/no1da/TestWithDocker.git'
             }
         }
 
         stage('Start Selenoid') {
             steps {
                 script {
-                    sh 'docker-compose -f docker-compose.yml up -d selenoid selenoid-ui'
-                    sleep(time: 5, unit: "SECONDS") 
+                    sh '''
+                    docker-compose -f docker-compose.yml up -d selenoid selenoid-ui
+                    docker ps
+                    '''
+                    // Пауза, чтобы Selenoid запустился
+                    sleep(time: 10, unit: "SECONDS")
                 }
             }
         }
 
-        stage('Test Execution') {
+        stage('Run Tests in Docker') {
             steps {
                 script {
-                    sh 'docker-compose run --rm uiautotests'
-                    sh 'docker cp $(docker ps -aqf "name=uiautotests"):/app/target/allure-results ./target/allure-results || true'
+                    sh '''
+                    docker build -t uiautotests .
+                    docker run --rm \
+                      -v $PWD/target/allure-results:/app/target/allure-results \
+                      --network=bridge \
+                      --name=test-runner \
+                      uiautotests mvn clean test
+                    '''
                 }
             }
         }
 
-        stage('Teardown') {
+        stage('Publish Allure Report') {
             steps {
-                script {
-                    sh 'docker-compose down'
-                }
+                allure includeProperties: false, jdk: '', results: [[path: "${TEST_RESULTS}"]]
             }
         }
 
-        stage('Allure Report') {
+        stage('Archive Artifacts') {
             steps {
-                allure includeProperties: false, jdk: '', results: [[path: 'target/allure-results']]
+                archiveArtifacts artifacts: 'target/allure-results/**', fingerprint: true
             }
         }
+
     }
 
     post {
         always {
-            junit 'target/surefire-reports/*.xml'
-            archiveArtifacts artifacts: 'target/allure-results/**/*.*', allowEmptyArchive: true
-            cleanWs()
+            echo 'Stopping containers...'
+            sh 'docker-compose down'
+        }
+
+        success {
+            echo 'Pipeline succeeded!'
+        }
+
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
