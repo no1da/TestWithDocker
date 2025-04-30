@@ -16,7 +16,7 @@ services:
     network_mode: bridge
     image: aerokube/selenoid-ui:1.10.5
     ports:
-      - "8080:8080"
+      - "8081:8081"
     links:
       - selenoid
     depends_on:
