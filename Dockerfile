@@ -1,5 +1,5 @@
 FROM maven:3.8.5-openjdk-17
-
+VOLUME /root/.m2
 WORKDIR /app
 
 COPY pom.xml .
