@@ -1,6 +1,8 @@
 package tests;
 
+import io.qameta.allure.*;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.*;
 
@@ -10,6 +12,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Класс тестирования страницы (https://www.way2automation.com/) содержит тесты для проверки различных элементов
  * и функциональности веб-страницы, используя фреймворк JUnit.
  */
+@Epic("UI Tests")
+@Feature("Way2Automation Main Page")
+@Owner("QA Team")
+@Severity(SeverityLevel.NORMAL)
+@DisplayName("Main Page UI Validation")
 public class PageTest extends MainPageTest {
     private WayPageHeader wayPageHeader;
     private WayPageFooter wayPageFuter;
@@ -22,6 +29,9 @@ public class PageTest extends MainPageTest {
      * списка курсов и навигационного блока на веб-странице.
      */
     @Test
+    @Story("UI Elements Existence")
+    @Severity(SeverityLevel.CRITICAL)
+    @DisplayName("Verify presence of header, footer, registration button, course list, and navigation block")
     public void wayPageTest() {
         SoftAssertions softAssertions = new SoftAssertions();
 
@@ -50,6 +60,9 @@ public class PageTest extends MainPageTest {
      * ожидаемыми значениями из конфигурации.
      */
     @Test
+    @Story("Header Verification")
+    @Severity(SeverityLevel.NORMAL)
+    @DisplayName("Validate phone numbers, Skype, mail and social links in the header")
     public void wayPageHeaderTest() {
         wayPageHeader = new WayPageHeader(driver);
         SoftAssertions softAssertions = new SoftAssertions();
@@ -90,6 +103,9 @@ public class PageTest extends MainPageTest {
      * ожидаемыми значениями из конфигурационного файла.
      */
     @Test
+    @Story("Footer Verification")
+    @Severity(SeverityLevel.NORMAL)
+    @DisplayName("Validate contact info in footer")
     public void wayPageFuterTest() {
         wayPageFuter = new WayPageFooter(driver);
         SoftAssertions softAssertions = new SoftAssertions();
