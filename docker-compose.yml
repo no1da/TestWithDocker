@@ -1,29 +1,37 @@
+
 services:
   selenoid:
     container_name: selenoid
-    image: aerokube/selenoid:latest-release
+    network_mode: bridge
+    image:  aerokube/selenoid:1.11.3
     ports:
       - "4444:4444"
     volumes:
-      - ./browsers.json:/etc/selenoid/browsers.json
-      - /var/run/docker.sock:/var/run/docker.sock
+      - "./browsers.json:/var/browsers.json"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ".:/etc/selenoid"
+
+  selenoid-ui:
+    container_name: selenoid-ui
+    network_mode: bridge
+    image: aerokube/selenoid-ui:1.10.5
+    ports:
+      - "8080:8080"
+    links:
+      - selenoid
+    depends_on:
+      - selenoid
     command:
-      - "-limit"
-      - "4"
-      - "-conf"
-      - "/etc/selenoid/browsers.json"
-      - "-listen"
-      - "0.0.0.0:4444"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4444/status"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
+      - "--selenoid-uri=http://selenoid:4444"
 
   uiautotests:
+    container_name: uiautotests
+    network_mode: bridge
     build:
       context: .
       dockerfile: Dockerfile
+    links:
+      - selenoid
     depends_on:
       - selenoid
     environment:

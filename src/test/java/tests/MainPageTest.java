@@ -36,7 +36,7 @@ public class MainPageTest {
         caps.setCapability("selenoid:options", selenoidOptions);
 
         try {
-            return new RemoteWebDriver(new URL(config.getProperty("remote.web.driver.url")), caps);
+            return new RemoteWebDriver(new URL("http://selenoid:4444/wd/hub"), caps);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
