@@ -6,7 +6,6 @@ services:
     container_name: selenoid
     networks:
       - selenoid-net
-    network_mode: bridge
     image:  aerokube/selenoid:1.11.3
     ports:
       - "4444:4444"
@@ -19,7 +18,6 @@ services:
     container_name: selenoid-ui
     networks:
       - selenoid-net
-    network_mode: bridge
     image: aerokube/selenoid-ui:1.10.5
     ports:
       - "8081:8080"
@@ -34,7 +32,6 @@ services:
     container_name: uiautotests
     networks:
       - selenoid-net
-    network_mode: bridge
     build:
       context: .
       dockerfile: Dockerfile
