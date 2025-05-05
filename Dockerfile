@@ -6,4 +6,4 @@ RUN mvn dependency:go-offline
 
 COPY src ./src
 
-CMD ["mvn", "test", "allure:report", "--no-clean"]
+CMD ["mvn", "test", "allure:report"]
