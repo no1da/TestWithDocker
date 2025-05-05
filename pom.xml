@@ -168,7 +168,7 @@
                     <systemProperties>
                         <property>
                             <name>allure.results.directory</name>
-                            <value>/app/target/allure-results</value>
+                            <value>/target/allure-results</value>
                         </property>
                     </systemProperties>
 
