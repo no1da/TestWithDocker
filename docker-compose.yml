@@ -35,7 +35,7 @@ services:
     depends_on:
       - selenoid
     volumes:
-      - ./allure-results:/project/allure-results
+      - ./allure-results:/app/target/allure-results
       - maven-repo:/root/.m2
     environment:
       - JAVA_OPTS=-Dwebdriver.remote.url=http://selenoid:4444/wd/hub
