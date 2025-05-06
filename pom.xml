@@ -167,8 +167,10 @@
                     </argLine>
                     <systemProperties>
                         <property>
-                            <name>allure.results.directory</name>
-                            <value>${project.build.directory}/allure-results</value>
+                            <property>
+                                <name>allure.results.directory</name>
+                                <value>/app/allure-results</value>
+                            </property>
                         </property>
                     </systemProperties>
 
