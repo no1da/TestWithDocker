@@ -2,10 +2,12 @@ package tests;
 
 
 import io.qameta.allure.Epic;
+import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -23,6 +25,7 @@ import java.util.Map;
  * использующих Selenium WebDriver и страницу WayPage.
  */
 @Epic("Testing Way2Automation Page")
+@ExtendWith(AllureJunit5.class)
 public class MainPageTest {
     protected static Config config;
     protected WayPage wayPage;

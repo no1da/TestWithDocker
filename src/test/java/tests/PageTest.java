@@ -1,9 +1,11 @@
 package tests;
 
 import io.qameta.allure.*;
+import io.qameta.allure.junit5.AllureJunit5;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import pages.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,6 +34,7 @@ public class PageTest extends MainPageTest {
     @Story("UI Elements Existence")
     @Severity(SeverityLevel.CRITICAL)
     @DisplayName("Verify presence of header, footer, registration button, course list, and navigation block")
+    @ExtendWith(AllureJunit5.class)
     public void wayPageTest() {
         SoftAssertions softAssertions = new SoftAssertions();
 
