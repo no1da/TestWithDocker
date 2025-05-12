@@ -18,3 +18,4 @@
     - Java Development Kit  17.
     - Apache Maven.
     - Google Chrome (последняя стабильная версия).
+Внесены изменения
